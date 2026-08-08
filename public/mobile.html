@@ -31,6 +31,12 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
+  /* Nasconde la barra di scorrimento quando la finestra e' ridotta (non a
+     tutto schermo) senza disattivare lo scroll, che resta possibile con
+     rotellina/trackpad se il contenuto non entra nell'altezza disponibile. */
+  html, body { scrollbar-width: none; }
+  html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; width: 0; height: 0; }
+
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background: var(--bg-color);
@@ -402,6 +408,15 @@
     overflow: hidden !important;
     min-height: auto !important;
     display: block !important;
+    /* Il popup PiP e' senza cornice (frame:false in main.js), quindi non ha
+       una title bar nativa da trascinare: rendiamo trascinabile lo sfondo
+       del widget e ripristiniamo il click normale sui controlli sopra. */
+    -webkit-app-region: drag;
+  }
+  body.pip-active button,
+  body.pip-active input,
+  body.pip-active a {
+    -webkit-app-region: no-drag;
   }
   body.pip-active .remote-container {
     padding: 0 !important;
